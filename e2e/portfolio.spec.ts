@@ -232,7 +232,7 @@ test.describe("uplink + chrome", () => {
     await expect(page.locator('#uplink a[href*="github.com"]').first()).toBeVisible();
     await expect(page.locator('#uplink a[href^="tel:"]').first()).toBeVisible();
     await expect(page.locator('a[href^="mailto:sharmashubham33@gmail.com"]').first()).toBeAttached();
-    await expect(page.locator('a[href="/Shubham_Sharma_Resume.pdf"]').first()).toBeAttached();
+    await expect(page.locator('a[href$="/Shubham_Sharma_Resume.pdf"]').first()).toBeAttached();
   });
 
   test("log ticker is rendering ops lines", async ({ page }) => {

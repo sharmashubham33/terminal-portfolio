@@ -70,7 +70,7 @@ export default function Manifest() {
 
         <div className="manifest-side">
           <div className="holo-portrait panel-corners reveal">
-            <img src="/profile.jpg" alt={profile.name} loading="lazy" />
+            <img src={`${import.meta.env.BASE_URL}profile.jpg`} alt={profile.name} loading="lazy" />
             <div className="holo-overlay" />
             <div className="holo-id">
               <span>OPERATOR-ID</span>

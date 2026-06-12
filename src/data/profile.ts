@@ -17,7 +17,7 @@ export const profile = {
   linkedin: "https://linkedin.com/in/sharmashubham33",
   github: "https://github.com/sharmashubham33",
   website: "https://shubhamresume.vercel.app",
-  resumeUrl: "/Shubham_Sharma_Resume.pdf",
+  resumeUrl: `${import.meta.env.BASE_URL}Shubham_Sharma_Resume.pdf`,
   careerStart: "2021-01-04T09:00:00",
 };
 
