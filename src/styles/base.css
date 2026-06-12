@@ -1,0 +1,323 @@
+/* ============================================================
+   SHUBHAM://OPS — design system
+   Phosphor CRT mission-control aesthetic.
+   ============================================================ */
+
+:root {
+  /* palette */
+  --void: #04070a;
+  --void-2: #070d12;
+  --panel: #0a1118;
+  --panel-2: #0d161f;
+  --line: #12251f;
+  --line-bright: #1d4435;
+  --phosphor: #3cffb4;
+  --phosphor-dim: #1d8f68;
+  --phosphor-glow: rgba(60, 255, 180, 0.55);
+  --amber: #ffb454;
+  --cyan: #41d9ff;
+  --violet: #b48cff;
+  --alert: #ff4f63;
+  --alert-glow: rgba(255, 79, 99, 0.5);
+  --ink: #eafff5;
+  --text: #c5e8d8;
+  --text-dim: #5d8273;
+  --text-faint: #33514a;
+
+  /* type */
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --display: "Space Grotesk", system-ui, sans-serif;
+
+  /* misc */
+  --radius: 6px;
+  --nav-h: 52px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+}
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--phosphor);
+  color: var(--void);
+}
+
+/* phosphor scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb {
+  background: var(--line-bright);
+  border-radius: 5px;
+  border: 2px solid var(--void);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--phosphor-dim); }
+
+a { color: var(--phosphor); text-decoration: none; }
+button { font-family: var(--mono); cursor: pointer; }
+
+/* ============ CRT ATMOSPHERE ============ */
+.app {
+  animation: power-on 0.9s ease-out;
+}
+
+@keyframes power-on {
+  0% { filter: brightness(2.6) saturate(0.2); }
+  35% { filter: brightness(0.85) saturate(1.4); }
+  100% { filter: none; }
+}
+
+.crt::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.08) 3px,
+    rgba(0, 0, 0, 0) 4px
+  );
+  opacity: 0.55;
+}
+
+.crt::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9001;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 58%,
+    rgba(0, 0, 0, 0.32) 100%
+  );
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.55; }
+  92% { opacity: 0.55; }
+  93% { opacity: 0.4; }
+  94% { opacity: 0.55; }
+}
+
+/* ============ SHARED PRIMITIVES ============ */
+.section {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 110px 28px 30px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.section-cmd {
+  color: var(--text-faint);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #eafff5;
+  text-transform: uppercase;
+}
+
+.section-title .accent { color: var(--phosphor); }
+
+.section-sub {
+  color: var(--text-dim);
+  font-size: 13.5px;
+  margin-bottom: 42px;
+  max-width: 640px;
+}
+
+.panel {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  position: relative;
+}
+
+.panel-corners::before,
+.panel-corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--phosphor-dim);
+  border-style: solid;
+  opacity: 0.7;
+  transition: border-color 0.3s, opacity 0.3s;
+}
+.panel-corners::before {
+  top: -1px; left: -1px;
+  border-width: 2px 0 0 2px;
+  border-radius: 4px 0 0 0;
+}
+.panel-corners::after {
+  bottom: -1px; right: -1px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 4px 0;
+}
+.panel-corners:hover::before,
+.panel-corners:hover::after {
+  border-color: var(--phosphor);
+  opacity: 1;
+}
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--phosphor);
+  box-shadow: 0 0 8px var(--phosphor-glow);
+  animation: pulse-dot 2.2s ease-in-out infinite;
+}
+.dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(255, 180, 84, 0.5); }
+.dot.red { background: var(--alert); box-shadow: 0 0 8px var(--alert-glow); }
+.dot.static { animation: none; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.82); }
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 9px;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  background: rgba(60, 255, 180, 0.045);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.tag:hover {
+  color: var(--phosphor);
+  border-color: var(--phosphor-dim);
+  background: rgba(60, 255, 180, 0.1);
+  text-shadow: 0 0 8px var(--phosphor-glow);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  border: 1px solid var(--phosphor-dim);
+  background: rgba(60, 255, 180, 0.06);
+  color: var(--phosphor);
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(60, 255, 180, 0.18) 50%, transparent 60%);
+  transform: translateX(-110%);
+  transition: transform 0.5s;
+}
+.btn:hover::before { transform: translateX(110%); }
+.btn:hover {
+  border-color: var(--phosphor);
+  box-shadow: 0 0 24px rgba(60, 255, 180, 0.25), inset 0 0 18px rgba(60, 255, 180, 0.08);
+  text-shadow: 0 0 10px var(--phosphor-glow);
+}
+.btn.solid {
+  background: var(--phosphor);
+  color: #042a1c;
+  border-color: var(--phosphor);
+}
+.btn.solid:hover { box-shadow: 0 0 36px rgba(60, 255, 180, 0.5); }
+.btn.danger {
+  border-color: rgba(255, 79, 99, 0.45);
+  background: rgba(255, 79, 99, 0.07);
+  color: var(--alert);
+}
+.btn.danger::before {
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 79, 99, 0.2) 50%, transparent 60%);
+}
+.btn.danger:hover {
+  border-color: var(--alert);
+  box-shadow: 0 0 24px rgba(255, 79, 99, 0.3);
+  text-shadow: 0 0 10px var(--alert-glow);
+}
+
+.kbd {
+  display: inline-block;
+  padding: 1px 7px;
+  font-size: 11px;
+  border: 1px solid var(--line-bright);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--panel-2);
+  color: var(--text-dim);
+}
+
+/* reveal-on-scroll — revealed state is a data attribute, not a class,
+   so React className rewrites can never hide content again */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.3, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.reveal[data-rv="1"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* glitch text effect (used by chaos + hero) */
+@keyframes glitch-shift {
+  0% { clip-path: inset(20% 0 60% 0); transform: translate(-4px, 2px); }
+  20% { clip-path: inset(60% 0 10% 0); transform: translate(4px, -2px); }
+  40% { clip-path: inset(40% 0 40% 0); transform: translate(-3px, 1px); }
+  60% { clip-path: inset(10% 0 75% 0); transform: translate(3px, -1px); }
+  80% { clip-path: inset(75% 0 5% 0); transform: translate(-2px, 2px); }
+  100% { clip-path: inset(30% 0 50% 0); transform: translate(2px, -2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
